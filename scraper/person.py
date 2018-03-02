@@ -7,6 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from .functions import time_divide
 from .objects import Experience, Education, Scraper
 import os
+import time
 
 class Person(Scraper):
     name = None
@@ -47,6 +48,9 @@ class Person(Scraper):
     def scrape(self, close_on_complete = True):
         if self.is_signed_in():
             self.scrape_logged_in(close_on_complete = close_on_complete)
+            self.driver.get("https://www.linkedin.com/in/andre-iguodala-65b48ab5")
+            time.sleep(3)
+            self.scrape_logged_in()
         else:
             self.scrape_not_logged_in(close_on_complete = close_on_complete)
 
@@ -81,8 +85,8 @@ class Person(Scraper):
         edu = driver.find_element_by_id("education-section")
         for school in edu.find_elements_by_class_name("pv-profile-section__sortable-item"):
             university = school.find_element_by_class_name("pv-entity__school-name").text
-            degree = school.find_element_by_class_name("pv-entity__degree-name").text
             try:
+                degree = school.find_element_by_class_name("pv-entity__degree-name").text
                 times = school.find_element_by_class_name("pv-entity__dates").text
                 from_date, to_date, duration = time_divide(times)
             except:

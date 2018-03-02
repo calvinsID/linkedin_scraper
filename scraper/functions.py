@@ -9,7 +9,7 @@ def time_divide(string):
     else:
         duration = "()"
 
-    times = string.split("–")
+    times = string.split("_")
     return (times[0].strip(), times[1].strip(), duration[1:-1])
 
 
